@@ -13,10 +13,7 @@ prjname = 'example'
 datatype = 'los'
 
 # origin for parameter conversion
-#origin = [38.796, 7.7882] # signal centre
-#origin = [38.791, 7.7882] # west from signal centre 
-#origin = [38.777563, 7.785906] # friedemann schuhmitte
-origin = [38.78799,  7.78826] # friedemann ursprung koordinatensystem
+origin = [38.78799,  7.78826] 
 
 # number of grid points
 nx = 12
