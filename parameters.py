@@ -61,3 +61,7 @@ Wr = 0.002 # 0.0002
 
 # shift data
 datashift = [0,0.01]  #0.005
+
+# determine pmin / predefine cut-off 
+determine_pmin = 0
+cutoff = 0 # needs to be integer
