@@ -75,6 +75,8 @@ def find_p(G,d):
         h = np.diag(H)
         
         r = ( np.identity(H.shape[0]) - H ) @ d  
+        
+        CVSS = np.sum((r / (1. - h[p]) ) ** 2.)
                 
         if p == 1:
             CVSS_min = CVSS
