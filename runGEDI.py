@@ -62,6 +62,7 @@ load_dwnsmpl = np.bool(parms.load_dwnsmpl)
 regularization = np.bool(parms.regularization)
 datatype = parms.datatype
 subgridlvl = parms.subgridlvl
+determine_pmin = np.bool(parms.determine_pmin)
 #datashift = parms.datashift
 #east_look = parms.east_look
 #north_look = parms.north_look
@@ -324,13 +325,14 @@ if np.any(elmAboveSurf):
 else:
     print('No intersection between grid and topography.')
 
-
-#print('Determining p value....')
-#pmin = gu.find_p(G,d)
-#print('P cut-off value found: ' + str(pmin))
-
-pmin = G.shape[1] 
-
+if determine_pmin:
+    print('Determining p value....')
+    pmin = gu.find_p(G,d)
+    print('P cut-off value found: ' + str(pmin))
+else:
+    pmin = G.shape[1] - parms.cutoff
+    print('Using cut-off value of ' + str(parms.cutoff))
+    
 print('Setting up singular value decomposition...')
 ### SVD
 U, lamb, VH = np.linalg.svd(G, full_matrices=False)
