@@ -1,8 +1,5 @@
 #import numpy as np
 
-# combine these two files into 4 column file?
-#datalocation = '/nfs/see-fs-02_users/eardj/python-scripts/Aluto_data/aluto_vel_0709.dat'
-
 insar1 = 'data/al_envi.dat'
 insar2 = 'data/al_alos.dat'
 
