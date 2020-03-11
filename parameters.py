@@ -17,10 +17,10 @@ nx = 12
 ny = 12
 nz = 1
 
-grid_z0 = 346.8+500#1346.8
+grid_z0 = 1000.
 grid_lonExtent = 15000.
 grid_latExtent = 15000.
-grid_zMax   = 346.8+1000#3346.8
+grid_zMax   = 2000.
 
 # subgrid level
 subgridlvl = 1
@@ -34,10 +34,6 @@ quadmaxdim     = 12
 
 # Poisson's ratio
 nu = 0.25
-
-# InSAR look angles
-#east_look=-0.9894
-#north_look=-0.1454
 
 # InSAR covariance parameters
 # now in m and m2
@@ -54,10 +50,10 @@ load_dwnsmpl = 0 # 1 or 0
 
 # regularization
 regularization = 1
-Wr = 0.002 # 0.0002
+Wr = 0.002 
 
 # shift data
-datashift = [0,0.01]  #0.005
+datashift = [0,0.01]  
 
 # determine pmin / predefine cut-off 
 determine_pmin = 0
