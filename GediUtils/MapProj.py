@@ -21,22 +21,28 @@ def wgs2local(lonlat, origin):
     # Reference:
     # J. P. Snyder, 1987. Map Projections-A Working Manual
     # USGS Professional Paper 1395
-    
+    #
+    # origin: sequence of lon, lat
+    #
     # Daniel Juncu, 2019
 
     # WGS84 ellipsoid parameters
     a = 6378137.0
     e = 0.081819190842621
+    
+    origin = np.array(origin)
 
     # create tuples to access coordinates arrays. necessary in case only 1 coordinate pair is given
     # in that case lonlat must be of size 1x2
     dim = lonlat.ndim
+
     tpl0 = [slice(None)] * dim
     tpl1 = [slice(None)] * dim
-
     tpl0[dim-1] = 0
     tpl1[dim-1] = 1
-
+    tpl0 = tuple(tpl0)
+    tpl1 = tuple(tpl1)
+    
     lon = lonlat[tpl0] * np.pi / 180.
     lat = lonlat[tpl1] * np.pi / 180.
 
