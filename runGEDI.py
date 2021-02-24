@@ -6,14 +6,6 @@ Created on Wed Jun 12 12:02:25 2019
 This script runs GEDI, a geodetic direct inversion software
 Argument is the parameter file, see example
 
-Requires the following non-built-in modules:
-numpy
-matplotlib
-pandas
-geopandas
-scipy
-
-
 @author: Daniel Juncu
 """
 import sys
