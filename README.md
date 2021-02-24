@@ -1,5 +1,5 @@
 # GEDI
-Invert InSAR data for distributed subsurface volume change
+A geodetic direct inversion software. Inverts InSAR data for distributed subsurface volume change.
 
 ## Dependencies
 numpy
