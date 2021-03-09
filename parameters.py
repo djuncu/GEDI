@@ -4,6 +4,7 @@ insar1 = 'data/al_envi.dat'
 insar2 = 'data/al_alos.dat'
 
 datalocation = [insar1,insar2]
+dataNames = ['ENVISAT', 'ALOS']
 
 prjname = 'example'
 

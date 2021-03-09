@@ -67,6 +67,7 @@ ngrid = nx*ny*nz
 
 print('Loading data...')
 nInsarFrames = len(parms.datalocation)
+dataNames = parms.dataNames
 if datatype == 'los':
     insar_data, insar_xyz, insar_ll, cosN, cosE, cosU, ndata, origin, topo = gu.loadInsarData(parms.datalocation, origin, estimateOrigin=False)
 elif datatype == 'eu':
@@ -463,41 +464,47 @@ ygplot = np.concatenate((ygplot, ygplot[:,-1][:,None]), axis=1)
 cmap_reversed = cm.get_cmap('viridis')
 
 plotsize = np.ceil(np.sqrt(nz)).astype(int)
-if plotsize == 1:
-    plotsize = 2
-
 fig, ax = plt.subplots(nrows=plotsize, ncols=plotsize)
-#plt.figure()
-depthid=0
-for row in ax:
-    for col in row:
-       if depthid < nz: 
-           im = col.pcolormesh(xgplot/1e3, ygplot/1e3, vcc[depthid,:,:],vmin=np.min(vc),vmax=np.max(vc),cmap = cmap_reversed)
-           col.text(.85*np.min(xgplot/1e3), .75*np.max(ygplot/1e3), str(int(refHeight+zgrid[depthid,0,0])) + ' m', fontsize=12, color='white')
-#           col.imshow(vcc[depthid,:,:],interpolation='bilinear',
-#                        cmap = cmap_reversed,
-#                        origin='lower',vmin=np.min(vc),vmax=np.max(vc))
-           depthid+=1
+
+if plotsize == 1:
+#    plotsize = 2
+   im = ax.pcolormesh(xgplot/1e3, ygplot/1e3, vcc[0,:,:]/1e6,vmin=np.min(vc/1e6),vmax=np.max(vc/1e6),cmap = cmap_reversed)
+   ax.text(.85*np.min(xgplot/1e3), .75*np.max(ygplot/1e3), 'center depth: '+ str(int(refHeight+zgrid[0,0,0])) + ' m asl', fontsize=12, color='white')
+   ax.set_ylabel('Northing in km')
+   ax.set_xlabel('Easting in km')
+   ax.set_title('Volume change in mill. m3')
+else:
+    depthid=0
+    for row in ax:
+        for col in row:
+           if depthid < nz: 
+               im = col.pcolormesh(xgplot/1e3, ygplot/1e3, vcc[depthid,:,:]/1e6,vmin=np.min(vc),vmax=np.max(vc),cmap = cmap_reversed)
+               col.text(.85*np.min(xgplot/1e3), .75*np.max(ygplot/1e3), str(int(refHeight+zgrid[depthid,0,0])) + ' m asl', fontsize=12, color='white')
+    #           col.imshow(vcc[depthid,:,:],interpolation='bilinear',
+    #                        cmap = cmap_reversed,
+    #                        origin='lower',vmin=np.min(vc),vmax=np.max(vc))
+               depthid+=1
 
 fig.subplots_adjust(right=0.8)
 cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
 fig.colorbar(im, cax=cbar_ax)
 
-
 fig, ax = plt.subplots(nrows=plotsize, ncols=plotsize)
-#plt.figure()
-depthid=0
-for row in ax:
-    for col in row:
-       if depthid < nz: 
-#           im = col.matshow(Rc[depthid,:,:],extent=(np.min(xgrid[0,:,:]/1e3), np.max(xgrid[0,:,:]/1e3), np.min(ygrid[0,:,:]/1e3), np.max(ygrid[0,:,:]/1e3)))
-           im = col.pcolormesh(xgplot/1e3, ygplot/1e3, Rc[depthid,:,:],vmin=np.min(Rc),vmax=np.max(Rc),cmap = 'Greys')
-           col.text(-6, 6, str(int(refHeight+zgrid[depthid,0,0])) + ' m', fontsize=12, color='white')
+if plotsize == 1:
+    print('')
+else:
+    depthid=0
+    for row in ax:
+        for col in row:
+           if depthid < nz: 
+    #           im = col.matshow(Rc[depthid,:,:],extent=(np.min(xgrid[0,:,:]/1e3), np.max(xgrid[0,:,:]/1e3), np.min(ygrid[0,:,:]/1e3), np.max(ygrid[0,:,:]/1e3)))
+               im = col.pcolormesh(xgplot/1e3, ygplot/1e3, Rc[depthid,:,:],vmin=np.min(Rc),vmax=np.max(Rc),cmap = 'Greys')
+               col.text(-6, 6, str(int(refHeight+zgrid[depthid,0,0])) + ' m', fontsize=12, color='white')
 
-#           col.imshow(vcc[depthid,:,:],interpolation='bilinear',
-#                        cmap = cmap_reversed,
-#                        origin='lower',vmin=np.min(vc),vmax=np.max(vc))
-           depthid+=1
+    #           col.imshow(vcc[depthid,:,:],interpolation='bilinear',
+    #                        cmap = cmap_reversed,
+    #                        origin='lower',vmin=np.min(vc),vmax=np.max(vc))
+               depthid+=1
 
 fig.subplots_adjust(right=0.8)
 cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
@@ -621,10 +628,12 @@ else:
             gu.plotQuads(cx[:,nquads[i-1]*i:nquads[i]+i*nquads[i-1]]/1e3,
                          cy[:,nquads[i-1]*i:nquads[i]+i*nquads[i-1]]/1e3,
                          alldata[nquads[i-1]*i:nquads[i]+i*nquads[i-1]],
-                         np.min(alldata), np.max(alldata), 'Greens')
+                         np.min(alldata), np.max(alldata), 'Greens', 
+                         title=f'{dataNames[i]} data LOS in m', lengthUnits='km')
             gu.plotQuads(cx[:,nquads[i-1]*i:nquads[i]+i*nquads[i-1]]/1e3,
                          cy[:,nquads[i-1]*i:nquads[i]+i*nquads[i-1]]/1e3,
-                         dpred[nquads[i-1]*i:nquads[i]+i*nquads[i-1]], np.min(alldata), np.max(alldata), 'Greens')
+                         dpred[nquads[i-1]*i:nquads[i]+i*nquads[i-1]], np.min(alldata), np.max(alldata), 'Greens', 
+                         title=f'{dataNames[i]} model LOS in m', lengthUnits='km')
 
 #fig = plt.figure()
 #h2 = plt.scatter(insar_xyz[:,0],insar_xyz[:,1],15,e_data-dpred[0:ndata])

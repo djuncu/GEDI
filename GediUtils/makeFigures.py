@@ -10,14 +10,18 @@ Plot quadtree downsampled deformation maps
 
 import geopandas as gpd
 from shapely.geometry import Polygon 
+import matplotlib.pyplot as plt
 
-
-def plotQuads(cx,cy,subdata,minval,maxval,colormap):
+def plotQuads(cx,cy,subdata,minval,maxval,colormap, title=None, lengthUnits = 'km'):
     columns = [ 'geometry', 'defo']
     quads = gpd.GeoDataFrame(columns=columns)
     quads['defo']= subdata
     
     for index, row in quads.iterrows(): 
         quads.loc[index, 'geometry'] = Polygon(zip(cx[:,index],cy[:,index]))
-        
-    quads.plot(column='defo', cmap=colormap, legend=True, alpha=1, vmin=minval, vmax=maxval)
+
+    fig, ax = plt.subplots(1,1)
+    quads.plot(column='defo', cmap=colormap, legend=True, alpha=1, vmin=minval, vmax=maxval, ax=ax)
+    ax.set_title(title)
+    ax.set_ylabel(f'Northing in {lengthUnits}')
+    ax.set_xlabel(f'Easting in {lengthUnits}')
